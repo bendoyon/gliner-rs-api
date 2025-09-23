@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  gliner-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - ROCKET_ADDRESS=0.0.0.0
+      - ROCKET_PORT=8000
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - gliner-network
+
+  # Optional: Add a reverse proxy (nginx)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - gliner-api
+    restart: unless-stopped
+    networks:
+      - gliner-network
+
+networks:
+  gliner-network:
+    driver: bridge
