@@ -1,6 +1,8 @@
 # Rust build artifacts
 target/
-Cargo.lock
+
+# Model files (downloaded during Docker build)
+models/
 
 # IDE files
 .vscode/

@@ -1,6 +1,10 @@
 # Rust build artifacts
 /target/
-Cargo.lock
+
+# Model files (downloaded at runtime)
+models/
+*.onnx
+*.json
 
 # IDE files
 .vscode/
